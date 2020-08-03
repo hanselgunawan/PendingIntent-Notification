@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PendingIntentNotification</string>
+    <string name="title_hint">Title</string>
+    <string name="message_hint">Message</string>
+    <string name="send_on_channel_1_text">Send On Channel 1</string>
+    <string name="send_on_channel_2_text">Send On Channel 2</string>
 </resources>
