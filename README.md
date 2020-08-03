@@ -22,7 +22,7 @@ Flag indicating that this `PendingIntent` can be used only once.
 Flag indicating that if the described `PendingIntent` does not already exist, then simply return null instead of creating it.
 
 ## Preventing Activity Creation on Every Notification Tapped
-Add `launchMode` inside `<activity` tag on `AndroidManifest.xml`
+Add `launchMode` inside `<activity>` tag on `AndroidManifest.xml`
 ```
 <activity
     android:name=".MainActivity"
