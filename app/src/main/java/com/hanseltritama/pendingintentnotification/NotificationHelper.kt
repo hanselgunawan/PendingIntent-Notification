@@ -3,8 +3,10 @@ package com.hanseltritama.pendingintentnotification
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import androidx.core.app.NotificationCompat
 
 class NotificationHelper(base: Context) : ContextWrapper(base) {
@@ -47,17 +49,28 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
     }
 
     fun getChannel1Notification(title: String, message: String) : NotificationCompat.Builder {
+
+        val resultIntent = Intent(this, MainActivity::class.java)
+        val resultPendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         return NotificationCompat.Builder(applicationContext,  channel1ID)
             .setContentTitle(title)
             .setContentText(message)
             .setSmallIcon(R.drawable.ic_one)
+            .setContentIntent(resultPendingIntent)
+            .setAutoCancel(true) // notification will disappear when tapped
     }
 
     fun getChannel2Notification(title: String, message: String) : NotificationCompat.Builder {
+        val resultIntent = Intent(this, MainActivity::class.java)
+        val resultPendingIntent = PendingIntent.getActivity(this, 2, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         return NotificationCompat.Builder(applicationContext,  channel2ID)
             .setContentTitle(title)
             .setContentText(message)
             .setSmallIcon(R.drawable.ic_two)
+            .setContentIntent(resultPendingIntent)
+            .setAutoCancel(true)
     }
 
 }
