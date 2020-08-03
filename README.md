@@ -21,6 +21,14 @@ Flag indicating that this `PendingIntent` can be used only once.
 ### FLAG_NO_CREATE
 Flag indicating that if the described `PendingIntent` does not already exist, then simply return null instead of creating it.
 
+## Types of Notification Visibility
+### VISIBILITY_PRIVATE
+Show this notification on all lockscreens, but conceal sensitive or private information on secure lockscreens.
+### VISIBILITY_PUBLIC
+Show this notification in its entirety on all lockscreens.
+### VISIBILITY_SECRET
+Do not reveal any part of this notification on a secure lockscreen.
+
 ## Preventing Activity Creation on Every Notification Tapped
 Add `launchMode` inside `<activity>` tag on `AndroidManifest.xml`
 ```
