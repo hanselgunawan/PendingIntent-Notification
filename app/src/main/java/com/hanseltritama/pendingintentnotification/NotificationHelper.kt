@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import androidx.core.app.NotificationCompat
 
@@ -67,13 +68,20 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
             // to update toastMessage extra's value
             PendingIntent.FLAG_UPDATE_CURRENT)
 
+        val largeIcon = BitmapFactory.decodeResource(resources, R.drawable.puppy)
+
         return NotificationCompat.Builder(applicationContext,  channel1ID)
             .setContentTitle(title)
             .setContentText(message)
+            .setSmallIcon(R.drawable.ic_one)
+            .setLargeIcon(largeIcon)
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText(getString(R.string.dummy_text))
+                .setBigContentTitle("Big Content Title")
+                .setSummaryText("Summary Text"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setColor(Color.BLUE)
-            .setSmallIcon(R.drawable.ic_one)
             .setContentIntent(resultPendingIntent)
             .setOnlyAlertOnce(true)
             .setAutoCancel(true) // notification will disappear when tapped
@@ -88,6 +96,17 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
             .setContentTitle(title)
             .setContentText(message)
             .setSmallIcon(R.drawable.ic_two)
+            .setStyle(NotificationCompat.InboxStyle()
+                .addLine("This is line 1")
+                .addLine("This is line 2")
+                .addLine("This is line 3")
+                .addLine("This is line 4")
+                .addLine("This is line 5")
+                .addLine("This is line 6")
+                .addLine("This is line 7")
+                .addLine("This is line 8")
+                .setBigContentTitle("Big Content Title")
+                .setSummaryText("Summary Text"))
             .setContentIntent(resultPendingIntent)
             .setAutoCancel(true)
     }
