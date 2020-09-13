@@ -25,8 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendOnChannel1(title: String, message: String) {
-        val notificationBuilder: NotificationCompat.Builder = notificationHelper.getChannel1Notification(title, message)
-        notificationHelper.getManager().notify(1, notificationBuilder.build())
+        notificationHelper.sendOnChannel1()
     }
 
     private fun sendOnChannel2(title: String, message: String) {
