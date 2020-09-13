@@ -9,6 +9,8 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.media.session.MediaSession
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
 
 class NotificationHelper(base: Context) : ContextWrapper(base) {
@@ -17,6 +19,7 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
     private val channel2ID: String = "channel2ID"
     private val channel2Name: String = "channel2Name"
     private var notificationManager: NotificationManager? = null
+    private val mediaSession: MediaSessionCompat = MediaSessionCompat(this, "tag")
 
     init {
         createChannels()
@@ -96,7 +99,8 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
             .addAction(R.drawable.ic_next,"Next", null)
             .addAction(R.drawable.ic_like,"Like", null)
             .setStyle(androidx.media.app.NotificationCompat.MediaStyle()
-                .setShowActionsInCompactView(1,2,3))
+                .setShowActionsInCompactView(1,2,3)
+                .setMediaSession(mediaSession.sessionToken))
             .setSubText("Sub Text")
             .setContentIntent(resultPendingIntent)
             .setAutoCancel(true)
