@@ -9,9 +9,13 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.media.session.MediaSession
+import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
+import android.view.View
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.Person
+import androidx.core.app.RemoteInput
 
 class NotificationHelper(base: Context) : ContextWrapper(base) {
     private val channel1ID: String = "channel1ID"
@@ -23,6 +27,9 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
 
     init {
         createChannels()
+        messages.add(Message("Good Morning!", "Jim"))
+        messages.add(Message("Hello", null))
+        messages.add(Message("Hi!", "Jenny"))
     }
 
     fun createChannels() {
@@ -53,33 +60,74 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
         return notificationManager as NotificationManager
     }
 
-    fun getChannel1Notification(title: String, message: String) : NotificationCompat.Builder {
+    fun sendOnChannel1() {
+        getChannel1Notification(this)
+    }
 
-        val resultIntent = Intent(this, MainActivity::class.java)
-        val resultPendingIntent = PendingIntent.getActivity(this,
-            1,
-            resultIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT)
+    companion object {
+        var messages: ArrayList<Message> = ArrayList()
 
-        val broadcastIntent = Intent(this, NotificationReceiver::class.java)
-        broadcastIntent.putExtra("toastMessage", message)
+        fun getChannel1Notification(context: Context) {
 
-        val picture = BitmapFactory.decodeResource(resources, R.drawable.puppy)
+            val resultIntent = Intent(context, MainActivity::class.java)
+            val resultPendingIntent = PendingIntent.getActivity(context,
+                1,
+                resultIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
 
-        return NotificationCompat.Builder(applicationContext,  channel1ID)
-            .setContentTitle(title)
-            .setContentText(message)
-            .setSmallIcon(R.drawable.ic_one)
-            .setLargeIcon(picture)
-            .setStyle(NotificationCompat.BigPictureStyle()
-                .bigPicture(picture)
-                .bigLargeIcon(null)) // it will remove the thumbnail when expanded
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-            .setColor(Color.BLUE)
-            .setContentIntent(resultPendingIntent)
-            .setOnlyAlertOnce(true)
-            .setAutoCancel(true) // notification will disappear when tapped
+            // add an input field inside of the notification
+            val remoteInput: RemoteInput = RemoteInput.Builder("key_text_reply")
+                .setLabel("Your answer...")
+                .build()
+
+            val replyIntent: Intent
+            var replyPendingIntent: PendingIntent? = null
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                replyIntent = Intent(context, NotificationReceiver::class.java)
+                replyPendingIntent = PendingIntent.getBroadcast(context,
+                    0,
+                    replyIntent,
+                    0)
+            }
+
+            val replyAction: NotificationCompat.Action = NotificationCompat.Action.Builder(
+                R.drawable.ic_reply,
+                "Reply",
+                replyPendingIntent
+            ).addRemoteInput(remoteInput).build()
+
+
+            val person: Person = Person.Builder().setName("Me").build()
+            val messagingStyle: NotificationCompat.MessagingStyle = NotificationCompat.MessagingStyle(person)
+            messagingStyle.conversationTitle = "Group Chat"
+
+            for (chatMessage in messages) {
+                val senderName: Person = Person.Builder().setName(chatMessage.getSender()).build()
+                messagingStyle.addMessage(
+                    NotificationCompat.MessagingStyle.Message(
+                        chatMessage.getText(),
+                        chatMessage.getTimestamp(),
+                        senderName
+                    )
+                )
+            }
+
+            val notification = NotificationCompat.Builder(context, "channel1ID")
+                .setSmallIcon(R.drawable.ic_one)
+                .setStyle(messagingStyle)
+                .addAction(replyAction)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setColor(Color.BLUE)
+                .setContentIntent(resultPendingIntent)
+                .setOnlyAlertOnce(true)
+                .setAutoCancel(true) // notification will disappear when tapped
+
+
+            val notificationManager = NotificationManagerCompat.from(context)
+            notificationManager.notify(1, notification.build())
+        }
     }
 
     fun getChannel2Notification(title: String, message: String) : NotificationCompat.Builder {
