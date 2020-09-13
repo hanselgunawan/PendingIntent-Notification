@@ -7,11 +7,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
-import android.support.v4.media.session.MediaSessionCompat
-import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
@@ -23,7 +20,6 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
     private val channel2ID: String = "channel2ID"
     private val channel2Name: String = "channel2Name"
     private var notificationManager: NotificationManager? = null
-    private val mediaSession: MediaSessionCompat = MediaSessionCompat(this, "tag")
 
     init {
         createChannels()
@@ -128,30 +124,6 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
             val notificationManager = NotificationManagerCompat.from(context)
             notificationManager.notify(1, notification.build())
         }
-    }
-
-    fun getChannel2Notification(title: String, message: String) : NotificationCompat.Builder {
-        val resultIntent = Intent(this, MainActivity::class.java)
-        val resultPendingIntent = PendingIntent.getActivity(this, 2, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val artwork = BitmapFactory.decodeResource(resources, R.drawable.puppy)
-
-        return NotificationCompat.Builder(applicationContext,  channel2ID)
-            .setContentTitle(title)
-            .setContentText(message)
-            .setSmallIcon(R.drawable.ic_two)
-            .setLargeIcon(artwork)
-            .addAction(R.drawable.ic_dislike,"Dislike", null)
-            .addAction(R.drawable.ic_previous,"Previous", null)
-            .addAction(R.drawable.ic_pause,"Pause", null)
-            .addAction(R.drawable.ic_next,"Next", null)
-            .addAction(R.drawable.ic_like,"Like", null)
-            .setStyle(androidx.media.app.NotificationCompat.MediaStyle()
-                .setShowActionsInCompactView(1,2,3)
-                .setMediaSession(mediaSession.sessionToken))
-            .setSubText("Sub Text")
-            .setContentIntent(resultPendingIntent)
-            .setAutoCancel(true)
     }
 
 }
