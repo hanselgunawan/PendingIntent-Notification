@@ -9,6 +9,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.View
 import androidx.core.app.NotificationCompat
@@ -79,11 +80,16 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
                 .setLabel("Your answer...")
                 .build()
 
-            val replyIntent: Intent = Intent(context, NotificationReceiver::class.java)
-            val replyPendingIntent: PendingIntent = PendingIntent.getBroadcast(context,
-                0,
-                replyIntent,
-                0)
+            val replyIntent: Intent
+            var replyPendingIntent: PendingIntent? = null
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                replyIntent = Intent(context, NotificationReceiver::class.java)
+                replyPendingIntent = PendingIntent.getBroadcast(context,
+                    0,
+                    replyIntent,
+                    0)
+            }
 
             val replyAction: NotificationCompat.Action = NotificationCompat.Action.Builder(
                 R.drawable.ic_reply,
