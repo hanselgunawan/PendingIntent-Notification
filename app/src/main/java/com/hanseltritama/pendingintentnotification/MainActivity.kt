@@ -1,5 +1,6 @@
 package com.hanseltritama.pendingintentnotification
 
+import android.app.Notification
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
@@ -32,32 +33,47 @@ class MainActivity : AppCompatActivity() {
 
     private fun sendOnChannel2() {
 
-        val progressMax = 100
+        val title1 = "Title 1"
+        val message1 = "Message 1"
+        val title2 = "Title 2"
+        val message2 = "Message 2 "
 
-        val notification: NotificationCompat.Builder = NotificationCompat.Builder(this,  "channel2ID")
+        val notification1: Notification = NotificationCompat.Builder(this,  "channel2ID")
             .setSmallIcon(R.drawable.ic_two)
-            .setContentTitle("Download")
-            .setContentText("Download in progress")
-            .setOnlyAlertOnce(true)
-            .setOngoing(true)
+            .setContentTitle(title1)
+            .setContentText(message1)
+            .setGroup("example_group")
             .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setProgress(progressMax, 0, false)
-            .setAutoCancel(true)
+            .build()
+
+        val notification2: Notification = NotificationCompat.Builder(this,  "channel2ID")
+            .setSmallIcon(R.drawable.ic_two)
+            .setContentTitle(title2)
+            .setContentText(message2)
+            .setGroup("example_group")
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .build()
+
+        val summaryNotification: Notification = NotificationCompat.Builder(this,  "channel2ID")
+            .setSmallIcon(R.drawable.ic_reply)
+            .setStyle(NotificationCompat.InboxStyle()
+                .addLine("$title2 $message2")
+                .addLine("$title1 $message1")
+                .setBigContentTitle("2 New Messages")
+                .setSummaryText("user@example.com"))
+            .setGroup("example_group")
+            .setGroupSummary(true)
+            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_CHILDREN)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .build()
 
         val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.notify(2, notification.build())
 
-        Thread(Runnable {
-            SystemClock.sleep(2000)
-            for (progress in 0..progressMax step 10) {
-                notification.setProgress(progressMax, progress, false)
-                notificationManager.notify(2, notification.build())
-                SystemClock.sleep(1000)
-            }
-            notification.setContentText("Download finished")
-                .setProgress(0,0,false)
-                .setOngoing(false)
-            notificationManager.notify(2, notification.build())
-        }).start()
+        SystemClock.sleep(2000)
+        notificationManager.notify(2, notification1)
+        SystemClock.sleep(2000)
+        notificationManager.notify(3, notification2)
+        SystemClock.sleep(2000)
+        notificationManager.notify(4, summaryNotification)
     }
 }
