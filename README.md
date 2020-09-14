@@ -42,4 +42,23 @@ Add `launchMode` inside `<activity>` tag on `AndroidManifest.xml`
 ```
 
 ## Demo
+### Simple Notification `simple-notification`
 <img src="https://gyazo.com/e86130ec44df2b9e25cd1668ea892430.gif" width="450px" height="800px" />
+
+### Notification with Button & Color `buttons-and-color`
+<img src="https://i.gyazo.com/3147445d2fa83b19aa29b10f6e97a9dd.gif" width="450px" height="800px" />
+
+### Notification with Long Text & Thumbnail `big-text-inbox-style`
+<img src="https://i.gyazo.com/3d85d856ecd9564b8a707ccad6382413.gif" width="450px" height="800px" />
+
+### Notification with Big Picture `big-picture-media-style`
+<img src="https://gyazo.com/896dd347a2bed601e64e1e4ce36b4e25.gif" width="450px" height="800px" />
+
+### Direct Reply from Notification `messaging-style-direct-reply`
+<img src="https://i.gyazo.com/50269c86c0f909f031e1f241c98c4e3b.gif" width="450px" height="800px" />
+
+### Notification with Progress Bar `progress-bar-notification`
+<img src="https://gyazo.com/5f4e8c9769b84038bb7087a8f919163b.gif" width="450px" height="800px" />
+
+### Notification Group `notification-groups`
+<img src="https://i.gyazo.com/9799a06f3286fa742fba8f3f0e51d3ff.gif" width="450px" height="800px" />
