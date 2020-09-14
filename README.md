@@ -58,7 +58,7 @@ Add `launchMode` inside `<activity>` tag on `AndroidManifest.xml`
 <img src="https://i.gyazo.com/50269c86c0f909f031e1f241c98c4e3b.gif" width="450px" height="800px" />
 
 ### Notification with Progress Bar `progress-bar-notification`
-<img src="https://gyazo.com/5f4e8c9769b84038bb7087a8f919163b.gif" width="450px" height="800px" />
+<img src="https://gyazo.com/5f4e8c9769b84038bb7087a8f919163b.gif" width="450px" height="800px" /><img src="https://i.imgur.com/610pnFb.png" width="450px" height="800px" />
 
 ### Notification Group `notification-groups`
 <img src="https://i.gyazo.com/9799a06f3286fa742fba8f3f0e51d3ff.gif" width="450px" height="800px" />
